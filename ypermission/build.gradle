@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+apply from: new File(rootProject.projectDir, "gradle/gradle-on-demand.gradle")
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME as String
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleDependency,GradleCompatible
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+}
