@@ -3,7 +3,6 @@ apply from: new File(rootProject.projectDir, "gradle/gradle-on-demand.gradle")
 
 android {
     compileSdkVersion 28
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
