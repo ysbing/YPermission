@@ -24,9 +24,6 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = VERSION_NAME
-group = POM_GROUP
-
 private def isReleaseBuild() {
     return !VERSION_NAME.contains("SNAPSHOT")
 }
@@ -60,7 +57,7 @@ afterEvaluate { project ->
 
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                pom.groupId = GROUP
+                pom.groupId = POM_GROUP
                 pom.artifactId = POM_ARTIFACT_ID
                 pom.version = VERSION_NAME
 
