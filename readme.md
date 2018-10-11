@@ -1,77 +1,74 @@
+## 一、介绍
+Android运行时权限申请库，兼容大部分手机，使用Fragment调用，支持多场景调用。
 
-中文版本请参看[这里](./readme_cn.md)
+## 二、框架特性
+* 支持Activity、Fragment、Application多个场景进行调用
+* 兼容大部分国产ROM权限管理
+* 使用接口回调的方式，无需重写onRequestPermissionsResult方法
 
-## I. Introduction
-Android runtime permission application library, compatible with most mobile phones, using Fragment call, support multi-scene call.
-
-## II. Feature
-* Support Activity, Fragment, Application multiple scenes to call
-* Compatible with most domestic ROM rights management
-* Use the interface callback method, no need to override the onRequestPermissionsResult method
-
-## III. Install
-Maven is recommended:
+## 三、安装
+推荐使用 Maven：
 ``` gradle
-Dependencies {
-    Implementation 'com.ysbing:ypermission:1.0.0'
-    // replace "1.0.10" with any available version
+dependencies {
+    implementation 'com.ysbing:ypermission:1.0.0'
+    // replace "1.0.10" with any available version
 }
 ```
 
-## IV. Quick Tutorial
+## 四、快速上手
 ``` java
-Private void permissionCheck() {
-    Final long t1 = System.currentTimeMillis();
-    String[] permissions = new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO};
-    PermissionManager.requestPermission(this, permissions, new PermissionManager.PermissionsListener() {
-        @Override
-        Public void onPermissionGranted() {
-            Toast.makeText(MainActivity.this, "Get all permissions, time consuming:" + (System.currentTimeMillis() - t1), Toast.LENGTH_LONG).show();
-        }
+private void permissionCheck() {
+    final long t1 = System.currentTimeMillis();
+    String[] permissions = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO};
+    PermissionManager.requestPermission(this, permissions, new PermissionManager.PermissionsListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(MainActivity.this, "获取了所有权限，耗时：" + (System.currentTimeMillis() - t1), Toast.LENGTH_LONG).show();
+        }
 
-        @Override
-        Public void onPermissionDenied(@NonNull List<PermissionManager.NoPermission> noPermissionsList) {
-            super.onPermissionDenied(noPermissionsList);
-            StringBuilder stringBuilder = new StringBuilder();
-            For (PermissionManager.NoPermission noPermission : noPermissionsList) {
-                stringBuilder.append(noPermission.permission).append("\n");
-            }
-            Toast.makeText(MainActivity.this, "Rejected permission: \n" + stringBuilder.toString(), Toast.LENGTH_LONG).show();
-            MobileSettingUtil.gotoPermissionSettings(MainActivity.this, 123);
-        }
-    });
+        @Override
+        public void onPermissionDenied(@NonNull List<PermissionManager.NoPermission> noPermissionsList) {
+            super.onPermissionDenied(noPermissionsList);
+            StringBuilder stringBuilder = new StringBuilder();
+            for (PermissionManager.NoPermission noPermission : noPermissionsList) {
+                stringBuilder.append(noPermission.permission).append("\n");
+            }
+            Toast.makeText(MainActivity.this, "被拒绝的权限：\n" + stringBuilder.toString(), Toast.LENGTH_LONG).show();
+            MobileSettingUtil.gotoPermissionSettings(MainActivity.this, 123);
+        }
+    });
 }
 ```
-PermissionManager is the total entry, support Activity, Fragment, Context, etc. as the carrier of the permission request, the specific method can be seen below
+PermissionManager是总入口，支持Activity,Fragment,Context等作为权限请求的载体，具体方法可以看下图
 
 ![](https://github.com/ysbing/YPermission/wiki/assets/img_PermissionManager.png)
 
-## V. Tools
-### Jump to the phone's rights management page
+## 五、实用工具类
+### 跳转到手机的权限管理页
 
 ``` java
 MobileSettingUtil.gotoPermissionSettings(MainActivity.this, 123);
 ```
 
 ![](https://github.com/ysbing/YPermission/wiki/assets/img_MobileSettingUtil.png)
-### Privilege Detection
+### 权限检测
 
 ``` java
 PermissionUtil.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
 ```
-### Mobile Blacklist
-Because some mobile phones use the system's check permission method to return the permission, but the actual permission is not allowed, so this situation must be checked twice. In this framework, support the blacklist's extra configuration, welcome everyone's positive feedback is black List of mobile phones to issues, thank you
+### 手机黑名单
+因为部分手机在使用系统的检查权限方法返回有权限，但实际没权限的情况，所以必须对这种情况做二次检测，在此框架中，支持黑名单的额外配置，欢迎大家积极反馈是黑名单的手机到issues上，谢谢
 
 ``` java
-// Add a String array of size 2, the first data of the array is the mobile phone brand, and the second data is the phone model.
+// 添加一个大小为2的String数组，数组的第一个数据为手机品牌，第二个数据为手机型号
 String[] mobile = new String[2];
-Mobile[0] = "OPPO";
-Mobile[1] = "OPPO R9S";
+mobile[0] = "OPPO";
+mobile[1] = "OPPO R9S";
 Blacklist.mobiles.add(mobile);
 ```
