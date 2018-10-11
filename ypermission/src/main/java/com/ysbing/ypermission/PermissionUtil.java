@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 
+import com.ysbing.ypermission.checker.LowMobileChecker;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,13 +93,29 @@ public class PermissionUtil {
 
 
     /**
-     * 检查是否有权限，有则可以不用申请
+     * 两层检测，先使用系统的检测方法，如果提示有权限，再使用第二层检测方法，该方法可能会少量耗时
      *
      * @param activity    上下文对象
      * @param permissions 需要申请的权限数组
      * @return 检查后的权限列表
      */
     public static List<PermissionManager.NoPermission> check(@NonNull Activity activity, @NonNull String[] permissions) {
+        List<PermissionManager.NoPermission> noPermissionList = systemCheck(activity, permissions);
+        if (noPermissionList.isEmpty()) {
+            return LowMobileChecker.hasPermission(activity, permissions);
+        } else {
+            return noPermissionList;
+        }
+    }
+
+    /**
+     * 使用系统的方法检查是否有权限，有则可以不用申请
+     *
+     * @param activity    上下文对象
+     * @param permissions 需要申请的权限数组
+     * @return 检查后的权限列表
+     */
+    public static List<PermissionManager.NoPermission> systemCheck(@NonNull Activity activity, @NonNull String[] permissions) {
         List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
         for (String permission : permissions) {
             if (!checkSelfPermission(activity, permission)) {

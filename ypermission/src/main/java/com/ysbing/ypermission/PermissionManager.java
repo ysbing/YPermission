@@ -153,7 +153,7 @@ public class PermissionManager {
             listener.onPermissionDenied(noForcePermissionList);
             return;
         }
-        List<NoPermission> noPermissionList = PermissionUtil.check(activity, permissions);
+        List<NoPermission> noPermissionList = PermissionUtil.systemCheck(activity, permissions);
         //如果检查到没有权限列表为空，第一层处理完毕，再处理第二层
         if (noPermissionList.isEmpty()) {
             // 第二层处理，根据各权限单独检测

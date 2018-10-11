@@ -24,6 +24,26 @@ public final class LowMobileChecker {
         handlerThread.start();
     }
 
+    public static List<PermissionManager.NoPermission> hasPermission(@NonNull final Activity activity, @Size(min = 1) @NonNull final String[] permissions) {
+        final List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+                || checkBlackList()) {
+            for (String permission : permissions) {
+                if (!hasPermission(activity, permission)) {
+                    PermissionManager.NoPermission noPermission = new PermissionManager.NoPermission();
+                    noPermission.permission = permission;
+                    if (!PermissionUtil.isFirstAskingPermission(activity, permission)) {
+                        if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+                            noPermission.isAlwaysDenied = true;
+                        }
+                    }
+                    noPermissionList.add(noPermission);
+                }
+            }
+        }
+        return noPermissionList;
+    }
+
     public static void hasPermission(@NonNull final Activity activity, @Size(min = 1) @NonNull final String[] permissions, @NonNull final PermissionManager.PermissionsListener listener) {
         final List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
         if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
@@ -36,7 +56,9 @@ public final class LowMobileChecker {
                         if (!hasPermission(activity, permission)) {
                             PermissionManager.NoPermission noPermission = new PermissionManager.NoPermission();
                             noPermission.permission = permission;
-                            if (!PermissionUtil.isFirstAskingPermission(activity, permission)) {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                noPermission.isAlwaysDenied = true;
+                            } else if (!PermissionUtil.isFirstAskingPermission(activity, permission)) {
                                 if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
                                     noPermission.isAlwaysDenied = true;
                                 }
