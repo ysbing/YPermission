@@ -1,6 +1,7 @@
 package com.ysbing.ypermission;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -46,19 +47,22 @@ public final class PermissionApplyDialogFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         Bundle bundle = getArguments();
-        mPermissions = bundle.getStringArray(PERMISSION_KEY);
+        if (bundle != null) {
+            mPermissions = bundle.getStringArray(PERMISSION_KEY);
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Activity activity = getActivity();
         if (requestCode == REQUEST_CODE && mPermissionsListener != null) {
             List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
             for (int i = 0; i < grantResults.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     PermissionManager.NoPermission noPermission = new PermissionManager.NoPermission();
                     noPermission.permission = permissions[i];
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[i])) {
+                    if (activity != null && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i])) {
                         noPermission.isAlwaysDenied = true;
                     }
                     noPermissionList.add(noPermission);
@@ -81,7 +85,9 @@ public final class PermissionApplyDialogFragment extends Fragment {
             }
         }
         for (String permission : permissions) {
-            PermissionUtil.firstAskingPermission(getActivity(), permission);
+            if (activity != null) {
+                PermissionUtil.firstAskingPermission(activity, permission);
+            }
         }
     }
 }

@@ -88,7 +88,10 @@ public class PermissionManager {
      * @param listener         授权或拒绝后的回调
      */
     public static void requestPermission(@NonNull android.support.v4.app.Fragment fragment, @NonNull String[] permissions, @NonNull String[] forcePermissions, @NonNull PermissionsListener listener) {
-        requestPermission(fragment.getActivity(), fragment.getChildFragmentManager(), permissions, forcePermissions, listener);
+        Activity activity = fragment.getActivity();
+        if (activity != null) {
+            requestPermission(activity, fragment.getChildFragmentManager(), permissions, forcePermissions, listener);
+        }
     }
 
 
@@ -168,6 +171,7 @@ public class PermissionManager {
                 }
                 noPermissions[i] = permission.permission;
             }
+            // 创建Fragment进行申请权限
             if (isApply) {
                 if (fragmentManager instanceof FragmentManager) {
                     showPermissionsDialog(noPermissions, (FragmentManager) fragmentManager, listener);
@@ -239,12 +243,12 @@ public class PermissionManager {
          * 被勾选了“不再提醒”的权限列表
          */
         @SuppressWarnings("WeakerAccess")
-        protected List<String> alwaysDeniedPermissions = new ArrayList<>();
+        protected final List<String> alwaysDeniedPermissions = new ArrayList<>();
         /**
          * 被拒绝的全部权限
          */
         @SuppressWarnings("WeakerAccess")
-        protected List<String> noPermissions = new ArrayList<>();
+        protected final List<String> noPermissions = new ArrayList<>();
 
         @Override
         @CallSuper

@@ -18,7 +18,7 @@ import java.util.List;
 
 public final class LowMobileChecker {
 
-    private static HandlerThread handlerThread = new HandlerThread("LowMobileChecker");
+    private static final HandlerThread handlerThread = new HandlerThread("LowMobileChecker");
 
     static {
         handlerThread.start();
@@ -79,11 +79,7 @@ public final class LowMobileChecker {
                 }
             });
         } else {
-            if (noPermissionList.isEmpty()) {
-                listener.onPermissionGranted();
-            } else {
-                listener.onPermissionDenied(noPermissionList);
-            }
+            listener.onPermissionGranted();
         }
     }
 
@@ -116,15 +112,17 @@ public final class LowMobileChecker {
                 case Manifest.permission.ACCESS_FINE_LOCATION:
                     return LocationFineTest.check(context);
                 case Manifest.permission.RECORD_AUDIO:
-                case Manifest.permission.READ_PHONE_STATE:
                     return RecordAudioTest.check();
+                case Manifest.permission.READ_PHONE_STATE:
+                    return PhoneStateReadTest.check(context);
                 case Manifest.permission.CALL_PHONE:
                     return true;
                 case Manifest.permission.READ_CALL_LOG:
-                case Manifest.permission.WRITE_CALL_LOG:
                     return CallLogReadTest.check(context);
+                case Manifest.permission.WRITE_CALL_LOG:
+                    return CallLogWriteTest.check(context);
                 case Manifest.permission.ADD_VOICEMAIL:
-                    return AddVoicemailTest.check(context);
+                    return AddVoiceMailTest.check(context);
                 case Manifest.permission.USE_SIP:
                     return SipTest.check(context);
                 case Manifest.permission.PROCESS_OUTGOING_CALLS:

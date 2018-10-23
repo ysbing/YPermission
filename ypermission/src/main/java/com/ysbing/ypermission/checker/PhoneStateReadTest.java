@@ -1,5 +1,6 @@
 package com.ysbing.ypermission.checker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 
 class PhoneStateReadTest {
 
+    @SuppressLint({"MissingPermission", "HardwareIds"})
     static boolean check(@NonNull Context context) {
         PackageManager packageManager = context.getPackageManager();
         if (!packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) return true;

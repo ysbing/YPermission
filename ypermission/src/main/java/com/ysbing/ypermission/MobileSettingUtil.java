@@ -15,7 +15,7 @@ import android.support.annotation.NonNull;
  * @author ysbing
  */
 public class MobileSettingUtil {
-    
+
     private static final String MANUFACTURER_MEIZU = "MEIZU";//魅族
     private static final String MANUFACTURER_XIAOMI = "XIAOMI";//小米
     private static final String MANUFACTURER_SONY = "SONY";//索尼
@@ -69,7 +69,10 @@ public class MobileSettingUtil {
                     break;
             }
         } catch (Exception e) {
-            gotoCommonPermissionSettings(object, requestId);
+            try {
+                gotoCommonPermissionSettings(object, requestId);
+            } catch (Exception ignored) {
+            }
         }
     }
 
@@ -190,7 +193,12 @@ public class MobileSettingUtil {
         if (object instanceof Activity) {
             return ((Activity) object).getPackageName();
         } else if (object instanceof android.support.v4.app.Fragment) {
-            return ((android.support.v4.app.Fragment) object).getActivity().getPackageName();
+            Activity activity = ((android.support.v4.app.Fragment) object).getActivity();
+            if (activity != null) {
+                return activity.getPackageName();
+            } else {
+                return null;
+            }
         } else if (object instanceof Fragment) {
             return ((Fragment) object).getActivity().getPackageName();
         } else {

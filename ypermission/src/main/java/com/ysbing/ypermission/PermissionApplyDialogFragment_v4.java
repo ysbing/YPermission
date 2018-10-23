@@ -1,5 +1,6 @@
 package com.ysbing.ypermission;
 
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -37,7 +38,9 @@ public final class PermissionApplyDialogFragment_v4 extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         Bundle bundle = getArguments();
-        mPermissions = bundle.getStringArray(PERMISSION_KEY);
+        if (bundle != null) {
+            mPermissions = bundle.getStringArray(PERMISSION_KEY);
+        }
     }
 
     public void requestPermissions(PermissionManager.PermissionsListener permissionsListener) {
@@ -50,13 +53,14 @@ public final class PermissionApplyDialogFragment_v4 extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Activity activity = getActivity();
         if (requestCode == REQUEST_CODE && mPermissionsListener != null) {
             List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
             for (int i = 0; i < grantResults.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     PermissionManager.NoPermission noPermission = new PermissionManager.NoPermission();
                     noPermission.permission = permissions[i];
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[i])) {
+                    if (activity != null && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i])) {
                         noPermission.isAlwaysDenied = true;
                     }
                     noPermissionList.add(noPermission);
@@ -79,7 +83,9 @@ public final class PermissionApplyDialogFragment_v4 extends Fragment {
             }
         }
         for (String permission : permissions) {
-            PermissionUtil.firstAskingPermission(getActivity(), permission);
+            if (activity != null) {
+                PermissionUtil.firstAskingPermission(activity, permission);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import java.io.File;
 
 class StorageReadTest {
+
     static boolean check() {
         // 如果是非正常情况，没法检测，要返回true，不然会陷入死循环检测
         String state = Environment.getExternalStorageState();

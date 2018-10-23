@@ -9,7 +9,7 @@ import android.provider.VoicemailContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-class AddVoicemailTest {
+class AddVoiceMailTest {
 
     static boolean check(@NonNull Context context) {
         ContentResolver resolver = context.getContentResolver();

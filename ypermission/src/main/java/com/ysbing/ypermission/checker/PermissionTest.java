@@ -4,8 +4,6 @@ import android.database.Cursor;
 
 interface PermissionTest {
 
-    boolean test() throws Throwable;
-
     class CursorTest {
         static void read(Cursor cursor) {
             int count = cursor.getCount();
