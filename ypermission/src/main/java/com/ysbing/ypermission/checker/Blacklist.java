@@ -14,6 +14,7 @@ public class Blacklist {
      * 用于临时设置黑名单，外部调用
      */
     public static List<String[]> mobiles = new ArrayList<>();
+    public static boolean forceCheck = false;
 
     static class Other {
         static boolean check() {

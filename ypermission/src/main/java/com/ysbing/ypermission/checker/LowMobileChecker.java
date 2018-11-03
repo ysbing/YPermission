@@ -84,6 +84,10 @@ public final class LowMobileChecker {
     }
 
     private static boolean checkBlackList() {
+        // 所有的手机将进行二次检测
+        if (Blacklist.forceCheck) {
+            return true;
+        }
         switch (Build.BRAND.toUpperCase()) {
             case "OPPO":
                 return Blacklist.OPPO.check();
