@@ -85,7 +85,7 @@ public final class LowMobileChecker {
 
     private static boolean checkBlackList() {
         // 所有的手机将进行二次检测
-        if (Blacklist.forceCheck) {
+        if (Blacklist.forceCheck && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return true;
         }
         switch (Build.BRAND.toUpperCase()) {
