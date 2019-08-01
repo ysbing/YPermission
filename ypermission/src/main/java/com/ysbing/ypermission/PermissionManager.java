@@ -30,7 +30,9 @@ public class PermissionManager {
      * @param permissions 需要申请的权限数组
      * @param listener    授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull Context context, @NonNull String[] permissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull Context context,
+                                         @NonNull String[] permissions,
+                                         @NonNull PermissionsListener listener) {
         if (context instanceof FragmentActivity) {
             requestPermission((FragmentActivity) context, permissions, permissions, listener);
         } else if (context instanceof Activity) {
@@ -47,7 +49,9 @@ public class PermissionManager {
      * @param permissions 需要申请的权限数组
      * @param listener    授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull Fragment fragment, @NonNull String[] permissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull Fragment fragment,
+                                         @NonNull String[] permissions,
+                                         @NonNull PermissionsListener listener) {
         requestPermission(fragment, permissions, permissions, listener);
     }
 
@@ -59,14 +63,18 @@ public class PermissionManager {
      * @param forcePermissions 需要申请的强制权限数组
      * @param listener         授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull Fragment fragment, @NonNull String[] permissions, @NonNull String[] forcePermissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull Fragment fragment,
+                                         @NonNull String[] permissions,
+                                         @NonNull String[] forcePermissions,
+                                         @NonNull PermissionsListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            requestPermission(fragment.getActivity(), fragment.getChildFragmentManager(), permissions, forcePermissions, listener);
+            requestPermission(fragment.getActivity(), fragment.getChildFragmentManager(), permissions, forcePermissions,
+                    listener);
         } else {
-            requestPermission(fragment.getActivity(), fragment.getFragmentManager(), permissions, forcePermissions, listener);
+            requestPermission(fragment.getActivity(), fragment.getFragmentManager(), permissions, forcePermissions,
+                    listener);
         }
     }
-
 
     /**
      * 请求权限，使用v4supper包的Fragment
@@ -75,7 +83,9 @@ public class PermissionManager {
      * @param permissions 需要申请的权限数组
      * @param listener    授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull android.support.v4.app.Fragment fragment, @NonNull String[] permissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull android.support.v4.app.Fragment fragment,
+                                         @NonNull String[] permissions,
+                                         @NonNull PermissionsListener listener) {
         requestPermission(fragment, permissions, permissions, listener);
     }
 
@@ -87,13 +97,15 @@ public class PermissionManager {
      * @param forcePermissions 需要申请的强制权限数组
      * @param listener         授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull android.support.v4.app.Fragment fragment, @NonNull String[] permissions, @NonNull String[] forcePermissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull android.support.v4.app.Fragment fragment,
+                                         @NonNull String[] permissions,
+                                         @NonNull String[] forcePermissions,
+                                         @NonNull PermissionsListener listener) {
         Activity activity = fragment.getActivity();
         if (activity != null) {
             requestPermission(activity, fragment.getChildFragmentManager(), permissions, forcePermissions, listener);
         }
     }
-
 
     /**
      * 请求权限，使用Activity
@@ -102,7 +114,9 @@ public class PermissionManager {
      * @param permissions 需要申请的权限数组
      * @param listener    授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull Activity activity, @NonNull String[] permissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull Activity activity,
+                                         @NonNull String[] permissions,
+                                         @NonNull PermissionsListener listener) {
         requestPermission(activity, permissions, permissions, listener);
     }
 
@@ -114,7 +128,10 @@ public class PermissionManager {
      * @param forcePermissions 需要申请的强制权限数组
      * @param listener         授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull Activity activity, @NonNull String[] permissions, @NonNull String[] forcePermissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull Activity activity,
+                                         @NonNull String[] permissions,
+                                         @NonNull String[] forcePermissions,
+                                         @NonNull PermissionsListener listener) {
         requestPermission(activity, activity.getFragmentManager(), permissions, forcePermissions, listener);
     }
 
@@ -125,7 +142,9 @@ public class PermissionManager {
      * @param permissions 需要申请的权限数组
      * @param listener    授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull FragmentActivity activity, @NonNull String[] permissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull FragmentActivity activity,
+                                         @NonNull String[] permissions,
+                                         @NonNull PermissionsListener listener) {
         requestPermission(activity, permissions, permissions, listener);
     }
 
@@ -137,7 +156,10 @@ public class PermissionManager {
      * @param forcePermissions 需要申请的强制权限数组
      * @param listener         授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull FragmentActivity activity, @NonNull String[] permissions, @NonNull String[] forcePermissions, @NonNull PermissionsListener listener) {
+    public static void requestPermission(@NonNull FragmentActivity activity,
+                                         @NonNull String[] permissions,
+                                         @NonNull String[] forcePermissions,
+                                         @NonNull PermissionsListener listener) {
         requestPermission(activity, activity.getSupportFragmentManager(), permissions, forcePermissions, listener);
     }
 
@@ -150,12 +172,11 @@ public class PermissionManager {
      * @param forcePermissions 需要申请的强制权限数组
      * @param listener         授权或拒绝后的回调
      */
-    private static void requestPermission(@NonNull Activity activity, @NonNull Object fragmentManager, @NonNull String[] permissions, @NonNull String[] forcePermissions, @NonNull PermissionsListener listener) {
-        List<NoPermission> noForcePermissionList = PermissionUtil.checkForcePermissions(activity, forcePermissions);
-        if (!noForcePermissionList.isEmpty()) {
-            listener.onPermissionDenied(noForcePermissionList);
-            return;
-        }
+    private static void requestPermission(@NonNull Activity activity,
+                                          @NonNull Object fragmentManager,
+                                          @NonNull String[] permissions,
+                                          @NonNull String[] forcePermissions,
+                                          @NonNull PermissionsListener listener) {
         List<NoPermission> noPermissionList = PermissionUtil.systemCheck(activity, permissions);
         //如果检查到没有权限列表为空，第一层处理完毕，再处理第二层
         if (noPermissionList.isEmpty()) {
@@ -176,7 +197,8 @@ public class PermissionManager {
                 if (fragmentManager instanceof FragmentManager) {
                     showPermissionsDialog(noPermissions, (FragmentManager) fragmentManager, listener);
                 } else if (fragmentManager instanceof android.support.v4.app.FragmentManager) {
-                    showPermissionsDialog_v4(noPermissions, (android.support.v4.app.FragmentManager) fragmentManager, listener);
+                    showPermissionsDialog_v4(noPermissions, (android.support.v4.app.FragmentManager) fragmentManager,
+                            listener);
                 }
             } else {
                 listener.onPermissionDenied(noPermissionList);
@@ -191,8 +213,11 @@ public class PermissionManager {
      * @param fragmentManager 原生的FragmentManager
      * @param listener        授权或拒绝后的回调
      */
-    private static void showPermissionsDialog(@NonNull final String[] permissions, @NonNull FragmentManager fragmentManager, @NonNull PermissionsListener listener) {
-        PermissionApplyDialogFragment dialogFragment = (PermissionApplyDialogFragment) fragmentManager.findFragmentByTag(PermissionApplyDialogFragment.TAG);
+    private static void showPermissionsDialog(@NonNull final String[] permissions,
+                                              @NonNull FragmentManager fragmentManager,
+                                              @NonNull PermissionsListener listener) {
+        PermissionApplyDialogFragment dialogFragment =
+                (PermissionApplyDialogFragment) fragmentManager.findFragmentByTag(PermissionApplyDialogFragment.TAG);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
             for (String permission : permissions) {
@@ -221,8 +246,11 @@ public class PermissionManager {
      * @param fragmentManager 原生的FragmentManager
      * @param listener        授权或拒绝后的回调
      */
-    private static void showPermissionsDialog_v4(@NonNull final String[] permissions, @NonNull android.support.v4.app.FragmentManager fragmentManager, @NonNull PermissionsListener listener) {
-        PermissionApplyDialogFragment_v4 dialogFragment = (PermissionApplyDialogFragment_v4) fragmentManager.findFragmentByTag(PermissionApplyDialogFragment_v4.TAG);
+    private static void showPermissionsDialog_v4(@NonNull final String[] permissions,
+                                                 @NonNull android.support.v4.app.FragmentManager fragmentManager,
+                                                 @NonNull PermissionsListener listener) {
+        PermissionApplyDialogFragment_v4 dialogFragment = (PermissionApplyDialogFragment_v4) fragmentManager
+                .findFragmentByTag(PermissionApplyDialogFragment_v4.TAG);
         if (dialogFragment == null) {
             dialogFragment = PermissionApplyDialogFragment_v4.newInstance(permissions);
             fragmentManager
@@ -278,7 +306,6 @@ public class PermissionManager {
         void onPermissionDenied(@NonNull List<NoPermission> noPermissionsList);
 
     }
-
 
     /**
      * 没有权限的实体类

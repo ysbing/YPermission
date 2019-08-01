@@ -10,8 +10,7 @@ Android运行时权限申请库，兼容大部分手机，使用Fragment调用�
 推荐使用 Maven：
 ``` gradle
 dependencies {
-    implementation 'com.ysbing:ypermission:1.0.0'
-    // replace "1.0.10" with any available version
+    implementation 'com.ysbing:ypermission:1.0.3'
 }
 ```
 

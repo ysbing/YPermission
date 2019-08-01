@@ -45,7 +45,9 @@ public final class PermissionApplyDialogFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
+        if (getParentFragment() == null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            setRetainInstance(true);
+        }
         Bundle bundle = getArguments();
         if (bundle != null) {
             mPermissions = bundle.getStringArray(PERMISSION_KEY);
@@ -53,7 +55,8 @@ public final class PermissionApplyDialogFragment extends Fragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Activity activity = getActivity();
         if (requestCode == REQUEST_CODE && mPermissionsListener != null) {
@@ -62,7 +65,8 @@ public final class PermissionApplyDialogFragment extends Fragment {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     PermissionManager.NoPermission noPermission = new PermissionManager.NoPermission();
                     noPermission.permission = permissions[i];
-                    if (activity != null && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i])) {
+                    if (activity != null &&
+                            !ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i])) {
                         noPermission.isAlwaysDenied = true;
                     }
                     noPermissionList.add(noPermission);

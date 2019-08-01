@@ -10,8 +10,7 @@ Android runtime permission application library, compatible with most mobile phon
 Maven is recommended:
 ``` gradle
 Dependencies {
-    Implementation 'com.ysbing:ypermission:1.0.0'
-    // replace "1.0.10" with any available version
+    Implementation 'com.ysbing:ypermission:1.0.3'
 }
 ```
 
