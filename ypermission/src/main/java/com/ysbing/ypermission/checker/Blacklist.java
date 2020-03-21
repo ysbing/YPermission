@@ -36,7 +36,22 @@ public class Blacklist {
     }
 
     static class OPPO {
+        static final String BRAND = "OPPO";
         static final String M1 = "OPPO R9S";
+
+        static boolean check() {
+            switch (Build.MODEL.toUpperCase()) {
+                case M1:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
+
+    static class VIVO {
+        static final String BRAND = "VIVO";
+        static final String M1 = "VIVO Y66";
 
         static boolean check() {
             switch (Build.MODEL.toUpperCase()) {
