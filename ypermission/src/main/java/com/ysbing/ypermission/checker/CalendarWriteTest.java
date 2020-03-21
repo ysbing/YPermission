@@ -7,7 +7,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.util.TimeZone;
 

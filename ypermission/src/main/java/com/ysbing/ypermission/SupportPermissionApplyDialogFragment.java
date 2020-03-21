@@ -3,10 +3,11 @@ package com.ysbing.ypermission;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +21,15 @@ import static com.ysbing.ypermission.PermissionApplyDialogFragment.REQUEST_CODE;
  *
  * @author ysbing
  */
-public final class PermissionApplyDialogFragment_v4 extends Fragment {
-    public static final String TAG = PermissionApplyDialogFragment_v4.class.getSimpleName();
+public final class SupportPermissionApplyDialogFragment extends Fragment {
+    public static final String TAG = SupportPermissionApplyDialogFragment.class.getSimpleName();
     private PermissionManager.PermissionsListener mPermissionsListener;
     private String[] mPermissions;
 
-    public static PermissionApplyDialogFragment_v4 newInstance(@NonNull String[] permissions) {
+    public static SupportPermissionApplyDialogFragment newInstance(@NonNull String[] permissions) {
         Bundle args = new Bundle();
         args.putStringArray(PERMISSION_KEY, permissions);
-        PermissionApplyDialogFragment_v4 fragment = new PermissionApplyDialogFragment_v4();
+        SupportPermissionApplyDialogFragment fragment = new SupportPermissionApplyDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +52,9 @@ public final class PermissionApplyDialogFragment_v4 extends Fragment {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Activity activity = getActivity();
         if (requestCode == REQUEST_CODE && mPermissionsListener != null) {
@@ -60,7 +63,8 @@ public final class PermissionApplyDialogFragment_v4 extends Fragment {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     PermissionManager.NoPermission noPermission = new PermissionManager.NoPermission();
                     noPermission.permission = permissions[i];
-                    if (activity != null && !ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[i])) {
+                    if (activity != null && !ActivityCompat
+                            .shouldShowRequestPermissionRationale(activity, permissions[i])) {
                         noPermission.isAlwaysDenied = true;
                     }
                     noPermissionList.add(noPermission);

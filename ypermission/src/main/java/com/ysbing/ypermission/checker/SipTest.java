@@ -4,7 +4,8 @@ import android.content.Context;
 import android.net.sip.SipException;
 import android.net.sip.SipManager;
 import android.net.sip.SipProfile;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.text.ParseException;
 

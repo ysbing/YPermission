@@ -6,7 +6,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.CallLog;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 class CallLogWriteTest {
 

@@ -2,10 +2,10 @@ apply plugin: 'com.android.library'
 apply from: new File(rootProject.projectDir, "gradle/gradle-on-demand.gradle")
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode VERSION_CODE as int
         versionName VERSION_NAME as String
     }
@@ -18,6 +18,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly 'com.android.support:appcompat-v7:28.0.0'
+    //noinspection GradleDependency
+    compileOnly 'androidx.appcompat:appcompat:1.0.0'
 }

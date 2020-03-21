@@ -3,7 +3,8 @@ package com.ysbing.ypermission.checker;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.util.List;
 

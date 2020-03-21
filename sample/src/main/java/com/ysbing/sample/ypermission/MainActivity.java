@@ -2,10 +2,11 @@ package com.ysbing.sample.ypermission;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ysbing.ypermission.MobileSettingUtil;
 import com.ysbing.ypermission.PermissionManager;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         PermissionManager.requestPermission(this, permissions, new PermissionManager.PermissionsListener() {
             @Override
             public void onPermissionGranted() {
-                Toast.makeText(MainActivity.this, "获取了所有权限，耗时：" + (System.currentTimeMillis() - t1), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "获取了所有权限，耗时：" +
+                        (System.currentTimeMillis() - t1), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -48,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 for (PermissionManager.NoPermission noPermission : noPermissionsList) {
                     stringBuilder.append(noPermission.permission).append("\n");
                 }
-                Toast.makeText(MainActivity.this, "被拒绝的权限：\n" + stringBuilder.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "被拒绝的权限：\n" +
+                        stringBuilder.toString(), Toast.LENGTH_LONG).show();
                 MobileSettingUtil.gotoPermissionSettings(MainActivity.this, 123);
             }
         });

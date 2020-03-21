@@ -3,7 +3,8 @@ package com.ysbing.ypermission.checker;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CallLog;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 class CallLogReadTest {
 

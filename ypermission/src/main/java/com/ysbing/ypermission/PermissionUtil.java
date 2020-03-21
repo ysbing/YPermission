@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.PermissionChecker;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 
 import com.ysbing.ypermission.checker.LowMobileChecker;
 
@@ -64,7 +65,8 @@ public class PermissionUtil {
      * @return 保存的权限对象
      */
     public static String getPermission(@NonNull Context context, @NonNull String permission) {
-        return context.getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE).getString(context.getClass().getName() + permission, "");
+        return context.getSharedPreferences(PREFS_FILE_NAME, MODE_PRIVATE)
+                .getString(context.getClass().getName() + permission, "");
     }
 
     /**
@@ -74,7 +76,8 @@ public class PermissionUtil {
      * @param forcePermissions 需要申请的强制权限数组
      * @return 检查后的强制权限数组
      */
-    public static List<PermissionManager.NoPermission> checkForcePermissions(@NonNull Activity activity, @NonNull String[] forcePermissions) {
+    public static List<PermissionManager.NoPermission> checkForcePermissions(@NonNull Activity activity,
+                                                                             @NonNull String[] forcePermissions) {
         List<PermissionManager.NoPermission> noForcePermissionList = new ArrayList<>();
         for (String permission : forcePermissions) {
             if (!checkSelfPermission(activity, permission)) {
@@ -99,7 +102,8 @@ public class PermissionUtil {
      * @param permissions 需要申请的权限数组
      * @return 检查后的权限列表
      */
-    public static List<PermissionManager.NoPermission> check(@NonNull Activity activity, @NonNull String[] permissions) {
+    public static List<PermissionManager.NoPermission> check(@NonNull Activity activity,
+                                                             @NonNull String[] permissions) {
         List<PermissionManager.NoPermission> noPermissionList = systemCheck(activity, permissions);
         if (noPermissionList.isEmpty()) {
             return LowMobileChecker.hasPermission(activity, permissions);
@@ -115,7 +119,8 @@ public class PermissionUtil {
      * @param permissions 需要申请的权限数组
      * @return 检查后的权限列表
      */
-    public static List<PermissionManager.NoPermission> systemCheck(@NonNull Activity activity, @NonNull String[] permissions) {
+    public static List<PermissionManager.NoPermission> systemCheck(@NonNull Activity activity,
+                                                                   @NonNull String[] permissions) {
         List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
         for (String permission : permissions) {
             if (!checkSelfPermission(activity, permission)) {

@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * 各手机品牌跳转设置的方法
@@ -16,19 +17,37 @@ import android.support.annotation.NonNull;
  */
 public class MobileSettingUtil {
 
-    private static final String MANUFACTURER_MEIZU = "MEIZU";//魅族
-    private static final String MANUFACTURER_XIAOMI = "XIAOMI";//小米
-    private static final String MANUFACTURER_SONY = "SONY";//索尼
+    /**
+     * 魅族
+     */
+    private static final String MANUFACTURER_MEIZU = "MEIZU";
+    /**
+     * 小米
+     */
+    private static final String MANUFACTURER_XIAOMI = "XIAOMI";
+    /**
+     * 索尼
+     */
+    private static final String MANUFACTURER_SONY = "SONY";
     private static final String MANUFACTURER_LG = "LG";
-    private static final String MANUFACTURER_LEMOBILE = "LEMOBILE";//乐视
-    private static final String MANUFACTURER_QIKU = "QIKU";//奇酷
-    private static final String MANUFACTURER_360 = "360";//奇酷
+    /**
+     * 乐视
+     */
+    private static final String MANUFACTURER_LEMOBILE = "LEMOBILE";
+    /**
+     * 奇酷
+     */
+    private static final String MANUFACTURER_QIKU = "QIKU";
+    /**
+     * 奇酷
+     */
+    private static final String MANUFACTURER_360 = "360";
 
     public static void gotoPermissionSettings(@NonNull Fragment fragment, int requestId) {
         gotoPermissionSettings((Object) fragment, requestId);
     }
 
-    public static void gotoPermissionSettings(@NonNull android.support.v4.app.Fragment fragment, int requestId) {
+    public static void gotoPermissionSettings(@NonNull androidx.fragment.app.Fragment fragment, int requestId) {
         gotoPermissionSettings((Object) fragment, requestId);
     }
 
@@ -71,7 +90,8 @@ public class MobileSettingUtil {
         } catch (Exception e) {
             try {
                 gotoCommonPermissionSettings(object, requestId);
-            } catch (Exception ignored) {
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         }
     }
@@ -81,8 +101,8 @@ public class MobileSettingUtil {
         localIntent.setData(Uri.fromParts("package", getPackageName(object), null));
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(localIntent, requestId);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).startActivityForResult(localIntent, requestId);
+        } else if (object instanceof androidx.fragment.app.Fragment) {
+            ((androidx.fragment.app.Fragment) object).startActivityForResult(localIntent, requestId);
         } else if (object instanceof Fragment) {
             ((Fragment) object).startActivityForResult(localIntent, requestId);
         }
@@ -92,24 +112,26 @@ public class MobileSettingUtil {
         try {
             // MIUI 8
             Intent localIntent = new Intent("miui.intent.action.APP_PERM_EDITOR");
-            localIntent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+            localIntent.setClassName("com.miui.securitycenter",
+                    "com.miui.permcenter.permissions.PermissionsEditorActivity");
             localIntent.putExtra("extra_pkgname", getPackageName(object));
             if (object instanceof Activity) {
                 ((Activity) object).startActivityForResult(localIntent, requestId);
-            } else if (object instanceof android.support.v4.app.Fragment) {
-                ((android.support.v4.app.Fragment) object).startActivityForResult(localIntent, requestId);
+            } else if (object instanceof androidx.fragment.app.Fragment) {
+                ((androidx.fragment.app.Fragment) object).startActivityForResult(localIntent, requestId);
             } else if (object instanceof Fragment) {
                 ((Fragment) object).startActivityForResult(localIntent, requestId);
             }
         } catch (Exception e) {
             // MIUI 5/6/7
             Intent localIntent = new Intent("miui.intent.action.APP_PERM_EDITOR");
-            localIntent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
+            localIntent.setClassName("com.miui.securitycenter",
+                    "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
             localIntent.putExtra("extra_pkgname", getPackageName(object));
             if (object instanceof Activity) {
                 ((Activity) object).startActivityForResult(localIntent, requestId);
-            } else if (object instanceof android.support.v4.app.Fragment) {
-                ((android.support.v4.app.Fragment) object).startActivityForResult(localIntent, requestId);
+            } else if (object instanceof androidx.fragment.app.Fragment) {
+                ((androidx.fragment.app.Fragment) object).startActivityForResult(localIntent, requestId);
             } else if (object instanceof Fragment) {
                 ((Fragment) object).startActivityForResult(localIntent, requestId);
             }
@@ -122,8 +144,8 @@ public class MobileSettingUtil {
         intent.putExtra("packageName", getPackageName(object));
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(intent, requestId);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).startActivityForResult(intent, requestId);
+        } else if (object instanceof androidx.fragment.app.Fragment) {
+            ((androidx.fragment.app.Fragment) object).startActivityForResult(intent, requestId);
         } else if (object instanceof Fragment) {
             ((Fragment) object).startActivityForResult(intent, requestId);
         }
@@ -133,12 +155,13 @@ public class MobileSettingUtil {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packageName", getPackageName(object));
-        ComponentName comp = new ComponentName("com.qihoo360.mobilesafe", "com.qihoo360.mobilesafe.ui.index.AppEnterActivity");
+        ComponentName comp = new ComponentName("com.qihoo360.mobilesafe",
+                "com.qihoo360.mobilesafe.ui.index.AppEnterActivity");
         intent.setComponent(comp);
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(intent, requestId);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).startActivityForResult(intent, requestId);
+        } else if (object instanceof androidx.fragment.app.Fragment) {
+            ((androidx.fragment.app.Fragment) object).startActivityForResult(intent, requestId);
         } else if (object instanceof Fragment) {
             ((Fragment) object).startActivityForResult(intent, requestId);
         }
@@ -148,12 +171,13 @@ public class MobileSettingUtil {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packageName", getPackageName(object));
-        ComponentName comp = new ComponentName("com.android.settings", "com.android.settings.Settings$AccessLockSummaryActivity");
+        ComponentName comp = new ComponentName("com.android.settings",
+                "com.android.settings.Settings$AccessLockSummaryActivity");
         intent.setComponent(comp);
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(intent, requestId);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).startActivityForResult(intent, requestId);
+        } else if (object instanceof androidx.fragment.app.Fragment) {
+            ((androidx.fragment.app.Fragment) object).startActivityForResult(intent, requestId);
         } else if (object instanceof Fragment) {
             ((Fragment) object).startActivityForResult(intent, requestId);
         }
@@ -163,12 +187,13 @@ public class MobileSettingUtil {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packageName", getPackageName(object));
-        ComponentName comp = new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.PermissionAndApps");
+        ComponentName comp = new ComponentName("com.letv.android.letvsafe",
+                "com.letv.android.letvsafe.PermissionAndApps");
         intent.setComponent(comp);
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(intent, requestId);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).startActivityForResult(intent, requestId);
+        } else if (object instanceof androidx.fragment.app.Fragment) {
+            ((androidx.fragment.app.Fragment) object).startActivityForResult(intent, requestId);
         } else if (object instanceof Fragment) {
             ((Fragment) object).startActivityForResult(intent, requestId);
         }
@@ -178,12 +203,13 @@ public class MobileSettingUtil {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("packageName", getPackageName(object));
-        ComponentName comp = new ComponentName("com.sonymobile.cta", "com.sonymobile.cta.SomcCTAMainActivity");
+        ComponentName comp = new ComponentName("com.sonymobile.cta",
+                "com.sonymobile.cta.SomcCTAMainActivity");
         intent.setComponent(comp);
         if (object instanceof Activity) {
             ((Activity) object).startActivityForResult(intent, requestId);
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            ((android.support.v4.app.Fragment) object).startActivityForResult(intent, requestId);
+        } else if (object instanceof androidx.fragment.app.Fragment) {
+            ((androidx.fragment.app.Fragment) object).startActivityForResult(intent, requestId);
         } else if (object instanceof Fragment) {
             ((Fragment) object).startActivityForResult(intent, requestId);
         }
@@ -192,8 +218,8 @@ public class MobileSettingUtil {
     private static String getPackageName(@NonNull Object object) {
         if (object instanceof Activity) {
             return ((Activity) object).getPackageName();
-        } else if (object instanceof android.support.v4.app.Fragment) {
-            Activity activity = ((android.support.v4.app.Fragment) object).getActivity();
+        } else if (object instanceof androidx.fragment.app.Fragment) {
+            Activity activity = ((androidx.fragment.app.Fragment) object).getActivity();
             if (activity != null) {
                 return activity.getPackageName();
             } else {

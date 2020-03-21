@@ -3,9 +3,10 @@ package com.ysbing.ypermission.checker;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 class PhoneStateReadTest {
 

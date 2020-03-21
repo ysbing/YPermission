@@ -6,8 +6,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.VoicemailContract;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 class AddVoiceMailTest {
 
@@ -23,8 +24,12 @@ class AddVoiceMailTest {
             contentValues.put(VoicemailContract.Voicemails.SOURCE_DATA, "permission");
             contentValues.put(VoicemailContract.Voicemails.IS_READ, 0);
             Uri newVoicemailUri = resolver.insert(mBaseUri, contentValues);
+            if (newVoicemailUri == null) {
+                return false;
+            }
             long id = ContentUris.parseId(newVoicemailUri);
-            int count = resolver.delete(mBaseUri, VoicemailContract.Voicemails._ID + "=?", new String[]{Long.toString(id)});
+            int count = resolver.delete(mBaseUri, VoicemailContract.Voicemails._ID + "=?",
+                    new String[]{Long.toString(id)});
             return count > 0;
         } catch (Exception e) {
             String message = e.getMessage();

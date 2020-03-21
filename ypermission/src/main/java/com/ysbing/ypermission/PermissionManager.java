@@ -7,9 +7,11 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.annotation.CallSuper;
+import androidx.fragment.app.FragmentActivity;
+
+import androidx.annotation.NonNull;
 
 import com.ysbing.ypermission.checker.LowMobileChecker;
 
@@ -83,7 +85,7 @@ public class PermissionManager {
      * @param permissions 需要申请的权限数组
      * @param listener    授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull android.support.v4.app.Fragment fragment,
+    public static void requestPermission(@NonNull androidx.fragment.app.Fragment fragment,
                                          @NonNull String[] permissions,
                                          @NonNull PermissionsListener listener) {
         requestPermission(fragment, permissions, permissions, listener);
@@ -97,7 +99,7 @@ public class PermissionManager {
      * @param forcePermissions 需要申请的强制权限数组
      * @param listener         授权或拒绝后的回调
      */
-    public static void requestPermission(@NonNull android.support.v4.app.Fragment fragment,
+    public static void requestPermission(@NonNull androidx.fragment.app.Fragment fragment,
                                          @NonNull String[] permissions,
                                          @NonNull String[] forcePermissions,
                                          @NonNull PermissionsListener listener) {
@@ -177,6 +179,11 @@ public class PermissionManager {
                                           @NonNull String[] permissions,
                                           @NonNull String[] forcePermissions,
                                           @NonNull PermissionsListener listener) {
+        List<NoPermission> noForcePermissionList = PermissionUtil.checkForcePermissions(activity, forcePermissions);
+        if (!noForcePermissionList.isEmpty()) {
+            listener.onPermissionDenied(noForcePermissionList);
+            return;
+        }
         List<NoPermission> noPermissionList = PermissionUtil.systemCheck(activity, permissions);
         //如果检查到没有权限列表为空，第一层处理完毕，再处理第二层
         if (noPermissionList.isEmpty()) {
@@ -196,8 +203,8 @@ public class PermissionManager {
             if (isApply) {
                 if (fragmentManager instanceof FragmentManager) {
                     showPermissionsDialog(noPermissions, (FragmentManager) fragmentManager, listener);
-                } else if (fragmentManager instanceof android.support.v4.app.FragmentManager) {
-                    showPermissionsDialog_v4(noPermissions, (android.support.v4.app.FragmentManager) fragmentManager,
+                } else if (fragmentManager instanceof androidx.fragment.app.FragmentManager) {
+                    showPermissionsDialog_v4(noPermissions, (androidx.fragment.app.FragmentManager) fragmentManager,
                             listener);
                 }
             } else {
@@ -247,15 +254,15 @@ public class PermissionManager {
      * @param listener        授权或拒绝后的回调
      */
     private static void showPermissionsDialog_v4(@NonNull final String[] permissions,
-                                                 @NonNull android.support.v4.app.FragmentManager fragmentManager,
+                                                 @NonNull androidx.fragment.app.FragmentManager fragmentManager,
                                                  @NonNull PermissionsListener listener) {
-        PermissionApplyDialogFragment_v4 dialogFragment = (PermissionApplyDialogFragment_v4) fragmentManager
-                .findFragmentByTag(PermissionApplyDialogFragment_v4.TAG);
+        SupportPermissionApplyDialogFragment dialogFragment = (SupportPermissionApplyDialogFragment) fragmentManager
+                .findFragmentByTag(SupportPermissionApplyDialogFragment.TAG);
         if (dialogFragment == null) {
-            dialogFragment = PermissionApplyDialogFragment_v4.newInstance(permissions);
+            dialogFragment = SupportPermissionApplyDialogFragment.newInstance(permissions);
             fragmentManager
                     .beginTransaction()
-                    .add(dialogFragment, PermissionApplyDialogFragment_v4.TAG)
+                    .add(dialogFragment, SupportPermissionApplyDialogFragment.TAG)
                     .commitAllowingStateLoss();
             fragmentManager.executePendingTransactions();
         }

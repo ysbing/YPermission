@@ -6,9 +6,10 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Size;
-import android.support.v4.app.ActivityCompat;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Size;
+import androidx.core.app.ActivityCompat;
 
 import com.ysbing.ypermission.PermissionManager;
 import com.ysbing.ypermission.PermissionUtil;
@@ -24,7 +25,8 @@ public final class LowMobileChecker {
         handlerThread.start();
     }
 
-    public static List<PermissionManager.NoPermission> hasPermission(@NonNull final Activity activity, @Size(min = 1) @NonNull final String[] permissions) {
+    public static List<PermissionManager.NoPermission>
+    hasPermission(@NonNull final Activity activity, @Size(min = 1) @NonNull final String[] permissions) {
         final List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
         if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                 || checkBlackList()) {
@@ -44,7 +46,9 @@ public final class LowMobileChecker {
         return noPermissionList;
     }
 
-    public static void hasPermission(@NonNull final Activity activity, @Size(min = 1) @NonNull final String[] permissions, @NonNull final PermissionManager.PermissionsListener listener) {
+    public static void hasPermission(@NonNull final Activity activity,
+                                     @Size(min = 1) @NonNull final String[] permissions,
+                                     @NonNull final PermissionManager.PermissionsListener listener) {
         final List<PermissionManager.NoPermission> noPermissionList = new ArrayList<>();
         if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                 || checkBlackList()) {
@@ -89,8 +93,10 @@ public final class LowMobileChecker {
             return true;
         }
         switch (Build.BRAND.toUpperCase()) {
-            case "OPPO":
+            case Blacklist.OPPO.BRAND:
                 return Blacklist.OPPO.check();
+            case Blacklist.VIVO.BRAND:
+                return Blacklist.VIVO.check();
             default:
                 return Blacklist.Other.check();
         }
@@ -145,6 +151,8 @@ public final class LowMobileChecker {
                     return StorageReadTest.check();
                 case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                     return StorageWriteTest.check();
+                default:
+                    break;
             }
         } catch (Throwable e) {
             return false;
